@@ -22,7 +22,10 @@ public class Validator {
         throw new IllegalArgumentException("[ERROR] 이동할 칸은 U,D 둘 중 하나를 선택해주세요.");
     }
 
-    public static void validateCorrectRetry(){
-
+    public static void validateCorrectRetry(String gameRetryCommand){
+        if(gameRetryCommand.equals("R") || gameRetryCommand.equals("Q")){
+            return;
+        }
+        throw new IllegalArgumentException("[ERROR] 이동할 칸은 U,D 둘 중 하나를 선택해주세요.");
     }
 }
