@@ -19,7 +19,10 @@ public class InputView {
      * 사용자가 이동할 칸을 입력받는다.
      */
     public String readMoving() {
-        return null;
+        String movingCommand = camp.nextstep.edu.missionutils.Console.readLine();
+        Validator.validateCorrectMove(movingCommand);
+
+        return movingCommand;
     }
 
     /**
