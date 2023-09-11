@@ -93,4 +93,51 @@ class ValidatorTest {
         assertThat(thrown).isInstanceOf(Exception.class)
                 .hasMessageContaining("[ERROR]");
     }
+
+    @Test
+    void 재시작여부_정상_입력_테스트1() {
+        assertDoesNotThrow(() -> Validator.validateCorrectRetry("R"));
+    }
+
+    @Test
+    void 재시작여부_정상_입력_테스트2() {
+        assertDoesNotThrow(() -> Validator.validateCorrectRetry("Q"));
+    }
+
+    @Test
+    void 재시작여부_비정상_입력_테스트_숫자() {
+        Throwable thrown = catchThrowable(() -> {
+            Validator.validateCorrectRetry("123");
+        });
+        assertThat(thrown).isInstanceOf(Exception.class)
+                .hasMessageContaining("[ERROR]");
+    }
+
+    @Test
+    void 재시작여부_비정상_입력_테스트_R와Q_이외의_문자() {
+        Throwable thrown = catchThrowable(() -> {
+            Validator.validateCorrectRetry("U");
+        });
+        assertThat(thrown).isInstanceOf(Exception.class)
+                .hasMessageContaining("[ERROR]");
+    }
+
+    @Test
+    void 재시작여부_비정상_입력_테스트_문자열() {
+        Throwable thrown = catchThrowable(() -> {
+            Validator.validateCorrectRetry("RQ");
+        });
+        assertThat(thrown).isInstanceOf(Exception.class)
+                .hasMessageContaining("[ERROR]");
+    }
+
+    @Test
+    void 재시작여부_비정상_입력_테스트_숫자와문자() {
+        Throwable thrown = catchThrowable(() -> {
+            Validator.validateCorrectRetry("12d");
+        });
+        assertThat(thrown).isInstanceOf(Exception.class)
+                .hasMessageContaining("[ERROR]");
+    }
+
 }
