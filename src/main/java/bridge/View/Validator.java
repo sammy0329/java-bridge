@@ -15,8 +15,11 @@ public class Validator {
         }
     }
 
-    public static void validateCorrectMove(){
-
+    public static void validateCorrectMove(String movingCommand){
+        if(movingCommand.equals("U") || movingCommand.equals("D")){
+            return;
+        }
+        throw new IllegalArgumentException("[ERROR] 이동할 칸은 U,D 둘 중 하나를 선택해주세요.");
     }
 
     public static void validateCorrectRetry(){
