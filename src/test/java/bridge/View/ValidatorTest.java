@@ -45,7 +45,52 @@ class ValidatorTest {
 
     @Test
     void 다리갯수_정상입력_테스트() {
-            assertDoesNotThrow(() -> Validator.validateBridgeCnt("14"));
+        assertDoesNotThrow(() -> Validator.validateBridgeCnt("14"));
     }
 
+    @Test
+    void 이동할_칸_정상_입력_테스트1() {
+        assertDoesNotThrow(() -> Validator.validateCorrectMove("U"));
+    }
+
+    @Test
+    void 이동할_칸_정상_입력_테스트2() {
+        assertDoesNotThrow(() -> Validator.validateCorrectMove("D"));
+    }
+
+    @Test
+    void 이동할_칸_비정상_입력_테스트_숫자() {
+        Throwable thrown = catchThrowable(() -> {
+            Validator.validateCorrectMove("123");
+        });
+        assertThat(thrown).isInstanceOf(Exception.class)
+                .hasMessageContaining("[ERROR]");
+    }
+
+    @Test
+    void 이동할_칸_비정상_입력_테스트_U와D_이외의_문자() {
+        Throwable thrown = catchThrowable(() -> {
+            Validator.validateCorrectMove("E");
+        });
+        assertThat(thrown).isInstanceOf(Exception.class)
+                .hasMessageContaining("[ERROR]");
+    }
+
+    @Test
+    void 이동할_칸_비정상_입력_테스트_문자열() {
+        Throwable thrown = catchThrowable(() -> {
+            Validator.validateCorrectMove("UD");
+        });
+        assertThat(thrown).isInstanceOf(Exception.class)
+                .hasMessageContaining("[ERROR]");
+    }
+
+    @Test
+    void 이동할_칸_비정상_입력_테스트_숫자와문자() {
+        Throwable thrown = catchThrowable(() -> {
+            Validator.validateCorrectMove("12d");
+        });
+        assertThat(thrown).isInstanceOf(Exception.class)
+                .hasMessageContaining("[ERROR]");
+    }
 }
