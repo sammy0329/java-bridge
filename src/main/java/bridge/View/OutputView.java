@@ -1,5 +1,7 @@
 package bridge.View;
 
+import java.util.List;
+
 /**
  * 사용자에게 게임 진행 상황과 결과를 출력하는 역할을 한다.
  */
@@ -17,7 +19,7 @@ public class OutputView {
     }
 
     // 다리 상태 출력 함수
-    public void printMap(String[] upBridgeStates, String[] downBridgeStates) {
+    public void printMap(List<String> upBridgeStates, List<String> downBridgeStates) {
         StringBuilder sb = new StringBuilder();
         sb.append("[ ").append(String.join(" | ", upBridgeStates)).append(" ]").append('\n');
         sb.append("[ ").append(String.join(" | ", downBridgeStates)).append(" ]").append('\n');
@@ -34,12 +36,12 @@ public class OutputView {
      * 게임 결과 출력 함수
      * <p>
      * parms
-     * upBridgeStates : 위쪽 다리 상태 String 배열
-     * downBridgeStates : 아래쪽 다리 상태 String 배열
+     * upBridgeStates : 위쪽 다리 상태 String 리스트
+     * downBridgeStates : 아래쪽 다리 상태 String 리스트
      * result : 게임 결과
      */
 
-    public void printResult(String[] upBridgeStates, String[] downBridgeStates, String result, int tryCnt) {
+    public void printResult(List<String> upBridgeStates, List<String> downBridgeStates, String result, int tryCnt) {
         System.out.println("최종 게임 결과");
         printMap(upBridgeStates,downBridgeStates);
         System.out.println("게임 성공 여부: " + result);

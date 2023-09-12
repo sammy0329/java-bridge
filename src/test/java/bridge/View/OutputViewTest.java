@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-
+import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
 
 class OutputViewTest {
@@ -20,7 +20,7 @@ class OutputViewTest {
         System.setOut(new PrintStream(outputStream));
 
         // 실제 출력문 실행
-        outputview.printMap(new String[]{"O"," ","O"}, new String[]{" ","O"," "});
+        outputview.printMap(Arrays.asList("O"," ","O"), Arrays.asList(" ","O"," "));
 
         // outputStream에 캡처된 내용을 String으로 변환
         String printedText = outputStream.toString().trim();
@@ -42,7 +42,7 @@ class OutputViewTest {
         System.setOut(new PrintStream(outputStream));
 
         // 실제 출력문 실행
-        outputview.printMap(new String[]{"O"," ","O","X"}, new String[]{" ","O"," "," "});
+        outputview.printMap(Arrays.asList("O"," ","O","X"), Arrays.asList(" ","O"," "," "));
 
         // outputStream에 캡처된 내용을 String으로 변환
         String printedText = outputStream.toString().trim();
@@ -64,7 +64,7 @@ class OutputViewTest {
         System.setOut(new PrintStream(outputStream));
 
         // 실제 출력문 실행
-        outputview.printResult(new String[]{"O"," ","O","O"}, new String[]{" ","O"," "," "},"성공",2);
+        outputview.printResult(Arrays.asList("O"," ","O","O"), Arrays.asList(" ","O"," "," "),"성공",2);
 
         // outputStream에 캡처된 내용을 String으로 변환
         String printedText = outputStream.toString().trim();
@@ -86,7 +86,7 @@ class OutputViewTest {
         System.setOut(new PrintStream(outputStream));
 
         // 실제 출력문 실행
-        outputview.printResult(new String[]{"O"," ","O","X"}, new String[]{" ","O"," "," "},"실패",1);
+        outputview.printResult(Arrays.asList("O"," ","O","X"), Arrays.asList(" ","O"," "," "),"실패",1);
 
         // outputStream에 캡처된 내용을 String으로 변환
         String printedText = outputStream.toString().trim();
