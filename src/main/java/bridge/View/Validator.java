@@ -15,14 +15,14 @@ public class Validator {
         }
     }
 
-    public static void validateCorrectMove(String movingCommand){
+    public static void validateCorrectMove(String movingCommand) throws IllegalArgumentException{
         if(movingCommand.equals("U") || movingCommand.equals("D")){
             return;
         }
         throw new IllegalArgumentException("[ERROR] 이동할 칸은 U,D 둘 중 하나를 선택해주세요.");
     }
 
-    public static void validateCorrectRetry(String gameRetryCommand){
+    public static void validateCorrectRetry(String gameRetryCommand) throws IllegalArgumentException{
         if(gameRetryCommand.equals("R") || gameRetryCommand.equals("Q")){
             return;
         }

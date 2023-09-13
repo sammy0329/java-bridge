@@ -30,7 +30,7 @@ public class GameController {
         return bridgeMaker.makeBridge(size);
     }
 
-    public void gameSetting() {
+    public void gameSetting() throws IllegalArgumentException{
         outputView.printGameStart(); // 게임시작 알림
         bridgeGame.setAnswerBridge(makeBridge(inputView.readBridgeSize())); // 다리 길이 입력 받기
     }
@@ -43,7 +43,7 @@ public class GameController {
         return false;
     }
 
-    public boolean checkRetryOrFail(boolean checkSuccessMove) {
+    public boolean checkRetryOrFail(boolean checkSuccessMove) throws IllegalArgumentException {
         if (!checkSuccessMove) {
             if (bridgeGame.retry(inputView.readGameCommand())) {
                 bridgeGame.resetBridgeState();
@@ -56,7 +56,7 @@ public class GameController {
     }
 
 
-    public void gameMain() {
+    public void gameMain() throws IllegalArgumentException{
         while (true) {
             boolean checkSuccessMove = bridgeGame.move(inputView.readMoving());
             outputView.printMap(bridgeGame.getUpBridgeStates(), bridgeGame.getDownBridgeStates());
@@ -64,7 +64,7 @@ public class GameController {
         }
     }
 
-    public void gameStart() {
+    public void gameStart() throws IllegalArgumentException{
         gameSetting();
         gameMain();
     }
