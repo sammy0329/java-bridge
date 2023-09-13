@@ -37,43 +37,37 @@
 
 - BridgeGame
     - 멤버 변수
-        - 총 시도 횟수 (Int)
-        - 정답 다리 상태 (char 배열)
-        - 현재 다리 상태 (char 배열)
+        - `int tryCnt` : 총 시도 횟수
+        - `List<String> answerBridge` : 정답 다리 상태
+        - `List<String> upBridgeStates` : 현재 위쪽 다리 상태
+        - `List<String> downBridgeStates` : 현재 아래쪽 다리 상태
     - 함수
         - `retry` : 게임 재실행 여부 판단 함수
             - “Q” || “R”
             - 이외 예외처리
-        - `resetBridgeState` : 현재 다리 상태를 리셋하는 함수
+        - `resetBridgeState` : 현재 다리 상태 리스트들을 리셋하는 함수
             - 현재 다리 []로 초기화
-        - `move` : 사용자에게 이동할 칸(U,D)을 입력 받고 이동하는 함수
+        - `setAnswerBridge` : 만들어진 정답 Bridge를 매개변수로 받아 answerBridge 리스트에 저장시키는 함수
+        - `move` : 사용자에게 이동할 칸(U,D)을 입력을 확인하고 이동하는 함수
             - “U” || “D”
                 - 움직일 수 있는 발판을 밟았으면,
                     - 움직인 후, return true;
                 - 움직일 수 없는 발판을 밟았으면,
                     - return false;
             - 이외 예외처리
-        - `getCurrentBridgeState` : 현재 다리 상태 반환하는 함수
-        - `getTotalTryCount` : 총 시도 횟수를 반환하는 함수
-
-- Validator
-    - `validateBridgeCnt` : 생성할 다리 갯수 입력이 올바른지 판단하는 함수
-        - 3이상 20 이하의 숫자인지 판단
-            - 만약, 올바른 입력이 아니라면 예외처리
-    - `validateCorrectMove` : 이동할 칸 입력이 올바른지 판단하는 함수
-        - “U”, ”D” 둘 중 하나의 문자를 입력할 수 있음
-            - 만약, 올바른 입력이 아니라면 예외처리
-    - `validateCorrectRetry` : 게임 재시도 여부 입력이 올바른지 판단하는 함수
-        - “R”, “Q” 둘 중 하나의 문자를 입력할 수 있음
-            - 만약, 올바른 입력이 아니라면 예외 처리
-    
+        - `isCorrectMovingCommand` : 올바르게 이동 가능할 때, 움직임을 표현해주는 함수
+        - `isNotCorrectMovingCommand` : 올바르지 않아 이동하지 못할 때, 움직이지 못함을 표현해주는 함수
 
 <View>
 
 - InputView
     - `readBridgeSize` : 생성할 다리 갯수 입력 받는 함수
     - `readMoving` : 이동할 칸 입력 받는 함수
+        - “U” || “D”
+        - 이외 `IllegalArgumentException` 예외처리
     - `readGameCommand` : 게임 재시도 여부 입력 받는 함수
+        - “Q” || “R”
+        - 이외 `IllegalArgumentException` 예외처리
 - OutputView
     - `printGameStart` : 게임 시작 알림 함수
         
@@ -105,35 +99,28 @@
 - ErrorView
     - `printErrorMessage` : 에러 메시지 출력 함수
 
+<Validator>
+
+- Validator
+    - `validateBridgeCnt` : 생성할 다리 갯수 입력이 올바른지 판단하는 함수
+        - 3이상 20 이하의 숫자인지 판단
+            - 만약, 올바른 입력이 아니라면 예외처리
+    - `validateCorrectMove` : 이동할 칸 입력이 올바른지 판단하는 함수
+        - “U”, ”D” 둘 중 하나의 문자를 입력할 수 있음
+            - 만약, 올바른 입력이 아니라면 예외처리
+    - `validateCorrectRetry` : 게임 재시도 여부 입력이 올바른지 판단하는 함수
+        - “R”, “Q” 둘 중 하나의 문자를 입력할 수 있음
+            - 만약, 올바른 입력이 아니라면 예외 처리
+    
+
 <Controller>
 
 - gameController
-    - 생성자로 inputView, outputView, ErrorView, Bridge 객체 생성
-    - while(true)
-        1. OutputView 객체를 통해 `printGameStart` 함수 호출
-        2. InputView 객체를 통해 `readBridgeSize` 함수 호출
-            - 입력을 받으면, Validator 객체의 `validateBridgeCnt` 함수로 검증 진행
-                - 이상이 있다면, ErrorView 객체의 에러 메시지 출력 함수에 `IllegalArgumentException` 던지기
-                - 이상 없다면, BridgeMaker 객체의 `makeBridge` 함수 호출
-        3. InputView 객체를 통해 `readMoving` 함수 호출
-            
-            3-1. 입력을 받으면, Validator 객체의 `validateCorrectMove` 함수로 검증 진행
-            
-            - 이상이 있다면, ErrorView의 에러 메시지 출력 함수에 `IllegalArgumentException` 던지기
-            - 이상 없다면, BridgeGame 객체의 `move` 함수 호출
-                - true 반환시
-                    - 모든 다리를 건넜을 경우 즉, 성공했을 때
-                        - OutputView 객체의 `printResult` 함수 호출 후, 종료
-                    - 남은 다리가 있을 경우
-                        1. OutputView 객체의 `printMap` 함수 호출
-                        2. 3번 다시 실행
-                - false 반환시 즉, 실패했을 때
-                    1. OutputView 객체의 `printResult` 함수 호출
-                    2. InputView 객체의 `readGameCommand` 함수 호출
-                        - 입력을 받으면, Validator 객체의 `validateCorrectRetry` 함수로 검증 진행
-                            - 이상이 있다면 ErrorView의 에러 메시지 출력 함수에 `IllegalArgumentException` 던지기
-                                - “Q”를 입력 받으면
-                                    1. break 후, 게임 종료
-                                - “R”을 입력 받으면,
-                                    1. BridgeGame 객체의 `resetBridgeState` 함수 호출
-                                    2. 다시 while문 초입 즉, 1번으로 돌아가 게임 재실행
+    - 생성자로 InputView, OutputView, ErrorView, BridgeGame, BridgeMaker, BridgeRandomNumberGenerator 객체 생성
+    - `makeBridge` : BridgeMaker 객체의 `makeBridge` 함수 호출 후, 반환
+    - `gameSetting` : 게임 시작시 시작알림 및 InputView 객체의 `readBridgeSize` 함수를 통해 다리 길이를 입력받아 `makeBridge` 함수를 통해 BridgeGame 객체의 `setAnswerBridge` 함수 호출
+    - `checkSuccessGame` : 게임에서 승리했는지 판단하는 함수
+        - BridgeGame 객체의 `isLastBridge` 와 현재 다리를 지나갈 수 있는지 판단하는 `move` 함수를 통해 게임에서 승리했는지 판단
+    - `checkRetryOrFail` : 정답 다리를 밟지 못했을 때, 재시작할지 끝낼지 판단하는 함수
+    - `gameMain` : while(true)로 움직임이 계속 진행되게 만들고 `checkSuccessGame` , `checkRetryOrFail` 에서 반환값이 true 즉, 성공 혹은 실패 여부가 판단 되었을 때 break
+    - `gameStart` : `gameSetting` 과 `gameMain` 함수를 호출하는 함수
